@@ -87,6 +87,6 @@ app.post("/file/download", function (req, res) {
     const name = files.find((_, index) => {
       return index == req.body.id;
     });
-    res.json({url: `${hostname}:${port}/${name}`});
+    res.json({url: `${hostname}/${name}`});
   });
 });
