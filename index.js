@@ -49,10 +49,12 @@ app.post("/files/add", upload, function (req, res, next) {
     error.httpStatusCode = 400;
     return next(error);
   }
+  const hasRedirectUrl = req.body.hasRedirectUrl;
+  const responseJson = hasRedirectUrl
+    ? { redirectUrl: `${hostname}/index.html` }
+    : {};
 
-  res.json({
-    redirectUrl: `${hostname}:${port}/${req.file.filename}`,
-  });
+  res.json(responseJson);
 });
 
 // 2. use connect-multiparty
@@ -87,6 +89,6 @@ app.post("/file/download", function (req, res) {
     const name = files.find((_, index) => {
       return index == req.body.id;
     });
-    res.json({url: `${hostname}/${name}`});
+    res.json({ url: `${hostname}/${name}` });
   });
 });
