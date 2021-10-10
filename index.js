@@ -49,19 +49,26 @@ app.post("/files/add", upload, function (req, res, next) {
     error.httpStatusCode = 400;
     return next(error);
   }
-  const hasRedirectUrl = req.body.hasRedirectUrl;
-  const responseJson = hasRedirectUrl
-    ? { redirectUrl: `${hostname}/index.html` }
-    : {};
 
-  res.json(responseJson);
+  res.json({ redirectUrl: `${hostname}/index.html` });
+});
+
+app.post("/files/add/hasNoRedirectUrl", upload, function (req, res, next) {
+  const file = req.file;
+  if (!file) {
+    const error = new Error("Please upload a file");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+
+  res.json({});
 });
 
 // 2. use connect-multiparty
 const multipart = require("connect-multiparty");
 const multipartMiddleware = multipart({ uploadDir: "./uploads" });
 app.post("/files/add2", multipartMiddleware, (req, res) => {
-  console.log(req);
+  console.log(req.body);
   res.json({
     message: "File uploaded successfully",
   });
