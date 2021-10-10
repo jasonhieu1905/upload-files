@@ -100,7 +100,7 @@ app.post("/file/delete", function (req, res) {
     const name = files.find((_, index) => {
       return index == req.body.id;
     });
-    fs.unlink(`${directoryPath}/${name}`);
+    fs.unlinkSync(`${directoryPath}/${name}`);
     res.json({});
   });
 });
