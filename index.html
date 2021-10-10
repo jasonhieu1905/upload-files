@@ -14,7 +14,20 @@
             id: index,
           },
           success: function (response) {
-            window.open(response.url, '_blank');
+            window.open(response.url, "_blank");
+          },
+        });
+      }
+
+      function deleteFile(index) {
+        $.ajax({
+          type: "POST",
+          url: "/file/delete",
+          data: {
+            id: index,
+          },
+          success: function (response) {
+            window.location.reload();
           },
         });
       }
@@ -26,11 +39,15 @@
           var html = "";
           for (var key in response) {
             var file = "<span>" + response[key] + "</span>";
-            var button =
+            var buttonAdd =
               "<button onclick='download(" +
               key +
               ")' style='margin-left: 10px'>Download</button>";
-            html += "<div style='margin-top: 10px'>" + file + button + "</div>";
+            var buttonDelete =
+              "<button onclick='deleteFile(" +
+              key +
+              ")' style='margin-left: 10px'>Delete</button>";
+            html += "<div style='margin-top: 10px'>" + file + button + buttonDelete + "</div>";
           }
           $("#files").append(html);
         },

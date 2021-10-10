@@ -64,16 +64,6 @@ app.post("/files/add/hasNoRedirectUrl", upload, function (req, res, next) {
   res.json({});
 });
 
-// 2. use connect-multiparty
-const multipart = require("connect-multiparty");
-const multipartMiddleware = multipart({ uploadDir: "./uploads" });
-app.post("/files/add2", multipartMiddleware, (req, res) => {
-  console.log(req.body);
-  res.json({
-    message: "File uploaded successfully",
-  });
-});
-
 // 3. list all files
 app.get("/files", function (req, res, next) {
   fs.readdir(directoryPath, function (err, files) {
@@ -97,5 +87,20 @@ app.post("/file/download", function (req, res) {
       return index == req.body.id;
     });
     res.json({ url: `${hostname}/${name}` });
+  });
+});
+
+// 4.delete File
+app.post("/file/delete", function (req, res) {
+  fs.readdir(directoryPath, function (err, files) {
+    //handling error
+    if (err) {
+      return console.log("Unable to scan directory: " + err);
+    }
+    const name = files.find((_, index) => {
+      return index == req.body.id;
+    });
+    fs.unlink(`${directoryPath}/${name}`);
+    res.json({});
   });
 });
