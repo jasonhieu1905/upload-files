@@ -9,10 +9,13 @@
       function download(index) {
         $.ajax({
           type: "POST",
-          url: "/file/download" ,
+          url: "/file/download",
           data: {
             id: index,
-          }
+          },
+          success: function (response) {
+            window.location.href = response.url;
+          },
         });
       }
 
