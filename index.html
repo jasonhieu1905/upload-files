@@ -14,7 +14,8 @@
             id: index,
           },
           success: function (response) {
-            window.location.href = response.url;
+            alert(response.url);
+            window.open(response.url, '_blank');
           },
         });
       }
