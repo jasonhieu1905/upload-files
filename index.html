@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>File Uploading Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <script>
+      function download(index) {
+        $.ajax({
+          type: "POST",
+          url: "/file/download" ,
+          data: {
+            id: index,
+          },
+          success: function (response) {
+            window.location.href = response.url;
+          },
+        });
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/files",
+        success: function (response) {
+          var html = "";
+          for (var key in response) {
+            var file = "<span>" + response[key] + "</span>";
+            var button =
+              "<button onclick='download(" +
+              key +
+              ")' style='margin-left: 10px'>Download</button>";
+            html += "<div style='margin-top: 10px'>" + file + button + "</div>";
+          }
+          $("#files").append(html);
+        },
+      });
+    </script>
+    <div
+      id="files"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: 100%;
+        width: 100%;
+        justify-content: flex-start;
+        padding: 30px;
+      "
+    ></div>
+  </body>
+</html>
