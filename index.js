@@ -78,11 +78,16 @@ app.get("/files", function (req, res, next) {
 
 // 4.download File
 
-app.post("/file/download", function (req, res, next) {
+app.post("/file/download", function (req, res) {
   fs.readdir(directoryPath, function (err, files) {
+    //handling error
     if (err) {
       return console.log("Unable to scan directory: " + err);
     }
-    res.json({url: `${hostname}:${port}/${files[req.body.id]}`});
+    const name = files.find((_, index) => {
+      return index == req.body.id;
+    });
+    const file = `${directoryPath}/${name}`;
+    res.download(file, name);
   });
 });
