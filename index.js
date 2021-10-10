@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 //start app
-const hostname = "http://localhost";
+const hostname = "https://hieudoan-upload-files.herokuapp.com/";
 const port = process.env.PORT || 3000;
 
 const server = app.listen(port, () =>
